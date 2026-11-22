@@ -28,7 +28,7 @@ Medir experimentalmente cómo la complejidad de un programa Cairo y los límites
 ## 4. Alcance
 
 ### Entra
-- Un workspace Scarb con tres paquetes: `fib_core`, `fib_contract`, `fib_exec`.
+- Tres paquetes Scarb independientes: `fib_core`, `fib_contract`, `fib_exec` (no workspace: el ejecutable requiere `enable-gas = false` y el contrato no).
 - Tests del contrato con `snforge` (entorno Starknet simulado, **sin chain**).
 - `scarb execute` → `scarb prove` → `scarb verify` sobre `fib_exec`.
 - Demo de soundness: prueba alterada / output alterado ⇒ la verificación falla.
@@ -73,8 +73,7 @@ stark-proving-cgroups/
 ├── README.md
 ├── docker/
 │   └── Dockerfile              # scarb + stwo + snforge, versiones fijadas
-├── cairo/                      # workspace Scarb
-│   ├── Scarb.toml
+├── cairo/                      # paquetes Scarb independientes
 │   ├── fib_core/               # lib: fn fib(n: u32) -> felt252
 │   ├── fib_contract/           # contrato Starknet + tests snforge
 │   └── fib_exec/               # #[executable] que llama a fib_core
@@ -90,17 +89,17 @@ stark-proving-cgroups/
 
 ## 7. Experimentos
 
-Cada punto se repite **5 veces**. Se reporta media y desvío estándar.
+Cada punto se repite **3 veces**. Se reporta media y desvío estándar.
 
 Todas las corridas usan `--memory-swap` igual a `--memory` (sin swap). Si no, Docker deja usar swap hasta duplicar el límite y el contenedor se pone lento en vez de morir por OOM, lo que contamina E3.
 
 | Barrido | Varía | Fijo | Pregunta que responde |
 |---------|-------|------|-----------------------|
-| E1 — Complejidad | n ∈ {valores a calibrar, p. ej. 10³ … 10⁶} | sin límites | ¿Cómo escalan prueba y verificación con los steps? |
-| E2 — CPU | `--cpus` ∈ {4, 2, 1, 0.5} | n fijo (medio) | ¿Cuánto paraleliza el prover? ¿Falla o solo tarda? |
-| E3 — Memoria | `--memory` descendente hasta OOM | n fijo, CPU sin límite | ¿Cuál es el umbral de memoria donde la prueba no termina? |
+| E1 — Complejidad | n ∈ {10, 1.000, 10.000, 50.000, 100.000} (140 → 1M steps) | sin límites | ¿Cómo escalan prueba y verificación con los steps? |
+| E2 — CPU | `--cpus` ∈ {4, 2, 1, 0.5} | n = 10.000 | ¿Cuánto paraleliza el prover? ¿Falla o solo tarda? |
+| E3 — Memoria | `--memory` ∈ {16, 15, 14.5, 14, 13} GB | n = 10.000, CPU sin límite | ¿Cuál es el umbral de memoria donde la prueba no termina? |
 
-Opcional si sobra tiempo: E3 repetido para 2–3 valores de n, para ver cómo sube el umbral de OOM con la complejidad.
+n máximo = 100.000: con 16 GB en la VM es el mayor valor verificado que no muere por OOM.
 
 ### Métricas por corrida
 
@@ -116,10 +115,12 @@ Opcional si sobra tiempo: E3 repetido para 2–3 valores de n, para ver cómo su
 | `verified` | resultado de `scarb verify` |
 
 ### Hipótesis
-- H1: `t_prove` crece aproximadamente lineal con `steps`, en escalones (la traza se rellena a potencia de 2).
+- H1: `t_prove` crece con `steps`, de forma sublineal en el rango medido (hay un costo fijo alto).
 - H2: `proof_size` y `t_verify` crecen mucho más lento que `t_prove`. Existe un n a partir del cual verificar es más barato que re-ejecutar.
 - H3: limitar CPU aumenta `t_prove` pero no causa fallas.
-- H4: limitar memoria por debajo de un umbral causa OOM kill (exit 137). El umbral crece con n.
+- H4: limitar memoria por debajo de un umbral causa OOM kill (exit 137). El umbral está dominado por un costo fijo del prover y crece poco con n.
+
+> Dato preliminar (primer hito): fib(10) necesita ~14,2 GB de pico y fib(100.000) ~15,1 GB, con 7.000× más steps. Ver README.
 
 ## 8. Criterios de aceptación (Definition of Done)
 
@@ -150,6 +151,7 @@ Opcional si sobra tiempo: E3 repetido para 2–3 valores de n, para ver cómo su
 | Riesgo | Mitigación |
 |--------|------------|
 | **Docker en macOS:** macOS no tiene cgroups (es un feature del kernel Linux). Docker Desktop resuelve esto corriendo una VM Linux liviana, y los contenedores viven adentro de esa VM. Los límites `--cpus`/`--memory` se aplican como cgroups v2 dentro de la VM, pero la VM tiene su propio techo de CPU y RAM: si es menor que el límite pedido, el que manda es la VM y la medición no refleja el cgroup. | Configurar la VM (Docker Desktop → Settings → Resources) con más CPU y RAM que el máximo usado en los barridos, y documentarlo en el informe como limitación del entorno. |
+| El prover necesita ~14 GB aun para programas mínimos; la Mac tiene 18 GB y la VM 16 GB, así que el margen para n grandes y para el barrido de memoria es chico. | Calibrar el n máximo para que no supere 16 GB. E3 barre límites en el rango ~13–16 GB. Si no alcanza, correr en una máquina con más RAM. |
 | Probar n grandes puede tardar demasiado. | Calibración (tarea 7) antes de los barridos. |
 | Arquitectura del host (Apple Silicon = ARM). | Documentar; los resultados son de ARM64. |
 
