@@ -11,13 +11,14 @@ Toda la planificación está en [SPEC.md](SPEC.md); cómo correr todo, en [READM
 
 - **No hacer commits ni push sin que el autor lo pida explícitamente.**
 - Commits en inglés, agrupados por archivos con sentido. Documentación del TP en español.
-- Scope chico: no agregar programas, chains, L1 ni otros provers. Eso es trabajo futuro.
+- Scope chico: no agregar programas, contratos, chains, L1 ni otros provers. Eso es trabajo futuro.
 
 ## Decisiones tomadas
 
 - Sin chain (ni Katana ni devnet): el objeto de estudio es el prover. El docente pidió separar ejecución de transacciones de generación de pruebas.
+- Sin contratos: Cairo se presenta como lenguaje de propósito general para cómputo verificable. Starknet (L2 cuyos contratos se escriben en Cairo) queda solo como contexto en el informe.
 - Prover: Stwo vía `scarb prove` (Scarb 2.21.0). No se usa Stone.
-- Paquetes Cairo independientes, no workspace: el ejecutable necesita `enable-gas = false` y el contrato no, y un workspace solo aplica el `[cairo]` de la raíz.
+- Dos paquetes Cairo independientes: `fib_core` (librería + tests) y `fib_exec` (`#[executable]`, con `enable-gas = false`).
 - `scarb prove` solo acepta ejecuciones con `--target bootloader`. El bootloader suma steps: fib(10) pasa de 140 a 5.172 steps.
 - Barridos: E1 n ∈ {10, 1.000, 10.000, 50.000, 100.000}; E2 `--cpus` ∈ {4, 2, 1, 0.5} con n = 10.000; E3 `--memory` ∈ {16, 15, 14.5, 14, 13} GB con n = 10.000. 3 repeticiones. Siempre `--memory-swap` = `--memory`.
 
@@ -36,13 +37,12 @@ Toda la planificación está en [SPEC.md](SPEC.md); cómo correr todo, en [READM
 
 ## Estado de las tareas (SPEC §9)
 
-- [x] 1. Versiones fijadas (Scarb 2.21.0, Starknet Foundry 0.64.1, USC 2.10.3)
+- [x] 1. Versión fijada (Scarb 2.21.0)
 - [x] 2. Dockerfile
 - [x] 3. `fib_core` + `fib_exec`: execute → prove → verify funcionando
-- [ ] 4. `fib_contract` + tests snforge
-- [ ] 5. `tamper.sh`
-- [x] 6. `run_once.sh`
-- [ ] 7. Calibración (hecha parcialmente: n máx = 100.000 entra en 16 GB)
-- [x] 8. `sweep.sh` (escrito; falta correrlo en la máquina de 32 GB)
-- [ ] 9. `plot.py`
-- [ ] 10. README final
+- [ ] 4. `tamper.sh`
+- [x] 5. `run_once.sh`
+- [x] 6. Calibración (n máx = 100.000)
+- [x] 7. `sweep.sh` y barridos E1–E3 corridos (resultados en `results/`, resumen en SPEC §7)
+- [ ] 8. `plot.py`
+- [ ] 9. README final

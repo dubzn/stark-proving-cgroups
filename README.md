@@ -13,7 +13,7 @@ Trabajo Final de Sistemas Operativos y Redes II (UNGS). Ver [SPEC.md](SPEC.md).
 ## Uso
 
 ```bash
-# 1. Construir la imagen (Scarb 2.21.0 + Starknet Foundry 0.64.1)
+# 1. Construir la imagen (Scarb 2.21.0, que incluye el prover Stwo)
 docker build -t stark-proving:dev -f docker/Dockerfile docker
 
 # 2. Tests de la librería
@@ -34,12 +34,12 @@ La prueba queda en `cairo/fib_exec/target/execute/fib_exec/execution<N>/proof/pr
 ## Estructura
 
 ```
-docker/Dockerfile      imagen con Scarb (execute/prove/verify) y snforge
+docker/Dockerfile      imagen con Scarb (execute/prove/verify)
 cairo/fib_core/        librería: fib(n) + tests
 cairo/fib_exec/        programa #[executable] que se prueba con Stwo
+scripts/               medición (run_once.sh) y barridos (sweep.sh)
+results/               CSV de E1–E3 y una prueba de ejemplo (ver results/README.md)
 ```
-
-Los paquetes Cairo son independientes (no un workspace): el ejecutable necesita `enable-gas = false` y un workspace solo aplica la sección `[cairo]` de la raíz, lo que chocaría con el contrato Starknet que se agrega después.
 
 ## Notas
 
