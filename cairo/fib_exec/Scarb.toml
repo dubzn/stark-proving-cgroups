@@ -1,0 +1,13 @@
+[package]
+name = "fib_exec"
+version = "0.1.0"
+edition = "2024_07"
+
+[[target.executable]]
+
+[cairo]
+enable-gas = false
+
+[dependencies]
+fib_core = { path = "../fib_core" }
+cairo_execute = "2.21.0"
