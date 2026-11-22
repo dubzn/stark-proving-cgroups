@@ -40,7 +40,7 @@ Toda la planificación está en [SPEC.md](SPEC.md); cómo correr todo, en [READM
 - [x] 1. Versión fijada (Scarb 2.21.0)
 - [x] 2. Dockerfile
 - [x] 3. `fib_core` + `fib_exec`: execute → prove → verify funcionando
-- [ ] 4. `tamper.sh`
+- [x] 4. `tamper.sh` (usa la prueba de ejemplo de `results/proofs/`)
 - [x] 5. `run_once.sh`
 - [x] 6. Calibración (n máx = 100.000)
 - [x] 7. `sweep.sh` y barridos E1–E3 corridos (resultados en `results/`, resumen en SPEC §7)

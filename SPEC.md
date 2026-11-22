@@ -1,7 +1,7 @@
 # SPEC — Generación y verificación de pruebas STARK bajo restricciones de cgroups v2
 
 > Trabajo Final Integrador — Sistemas Operativos y Redes II (UNGS), 2do semestre 2026.
-> Estado: **aprobado**. Entorno, scripts y barridos completos; faltan `tamper.sh`, `plot.py` y el README final.
+> Estado: **aprobado**. Entorno, scripts y barridos completos; faltan `plot.py` y el README final.
 
 ---
 
@@ -137,7 +137,7 @@ Medias de 3 repeticiones. Detalle y entorno en `results/README.md`.
 - [x] `docker build` produce la imagen con versiones fijadas.
 - [x] `scarb test` pasa en `fib_core` (fib coincide con valores conocidos).
 - [x] `scarb execute` + `prove` + `verify` funciona para un n chico dentro del contenedor.
-- [ ] `tamper.sh` muestra que una prueba alterada y un output alterado fallan la verificación.
+- [x] `tamper.sh` muestra que una prueba alterada y un output alterado fallan la verificación.
 - [x] `run_once.sh` emite una fila CSV con todas las métricas de §7.
 - [x] E1, E2 y E3 completos en `results/raw/`.
 - [ ] `plot.py` genera los gráficos del informe en `results/figures/`.
@@ -148,7 +148,7 @@ Medias de 3 repeticiones. Detalle y entorno en `results/README.md`.
 1. [x] Elegir versión de Scarb con `prove`/`verify` y fijarla (2.21.0).
 2. [x] Dockerfile con Scarb.
 3. [x] `fib_core` + `fib_exec`: execute → prove → verify con n chico. ← **primer hito pedido por el docente**
-4. [ ] `tamper.sh`.
+4. [x] `tamper.sh`.
 5. [x] `run_once.sh` con lectura de cgroups.
 6. [x] Calibrar rangos de n y el n fijo de E2/E3.
 7. [x] `sweep.sh` y correr E1, E2, E3 (VM Ubuntu Server, 22/11/2026).

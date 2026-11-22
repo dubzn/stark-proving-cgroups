@@ -31,6 +31,22 @@ docker run --rm -v "$PWD/cairo":/work -w /work/fib_exec stark-proving:dev bash -
 
 La prueba queda en `cairo/fib_exec/target/execute/fib_exec/execution<N>/proof/proof.json`.
 
+```bash
+# 5. Demo de soundness: verifica la prueba de ejemplo y copias alteradas (~3 s, no genera pruebas)
+docker run --rm -v "$PWD":/repo stark-proving:dev bash /repo/scripts/tamper.sh
+```
+
+| caso | resultado | motivo |
+|------|-----------|--------|
+| original | OK | |
+| re-serializada con jq, sin cambios | OK | (control: jq no rompe la prueba) |
+| output alterado (55 → 56) | FAIL | Proof of work verification failed |
+| hash del programa alterado | FAIL | Proof of work verification failed |
+| 1 byte de un commitment | FAIL | Proof of work verification failed |
+| 1 valor consultado | FAIL | Root mismatch (Merkle) |
+
+El claim (output, hash del programa) y los commitments entran al transcript de Fiat–Shamir, así que cualquier cambio cambia los desafíos y el proof-of-work deja de coincidir. Los valores consultados se leen después, y los atrapa la verificación de Merkle.
+
 ## Estructura
 
 ```
