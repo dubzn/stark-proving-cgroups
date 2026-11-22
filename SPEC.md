@@ -1,7 +1,7 @@
 # SPEC — Generación y verificación de pruebas STARK bajo restricciones de cgroups v2
 
 > Trabajo Final Integrador — Sistemas Operativos y Redes II (UNGS), 2do semestre 2026.
-> Estado: **aprobado**. Entorno, scripts y barridos completos; faltan `plot.py` y el README final.
+> Estado: **aprobado**. Entorno, scripts y barridos completos; falta el README final.
 
 ---
 
@@ -140,7 +140,7 @@ Medias de 3 repeticiones. Detalle y entorno en `results/README.md`.
 - [x] `tamper.sh` muestra que una prueba alterada y un output alterado fallan la verificación.
 - [x] `run_once.sh` emite una fila CSV con todas las métricas de §7.
 - [x] E1, E2 y E3 completos en `results/raw/`.
-- [ ] `plot.py` genera los gráficos del informe en `results/figures/`.
+- [x] `plot.py` genera los gráficos del informe en `results/figures/`.
 - [ ] README explica cómo reproducir todo en ≤ 5 comandos.
 
 ## 9. Tareas (en orden)
@@ -152,7 +152,7 @@ Medias de 3 repeticiones. Detalle y entorno en `results/README.md`.
 5. [x] `run_once.sh` con lectura de cgroups.
 6. [x] Calibrar rangos de n y el n fijo de E2/E3.
 7. [x] `sweep.sh` y correr E1, E2, E3 (VM Ubuntu Server, 22/11/2026).
-8. [ ] `plot.py` y gráficos.
+8. [x] `plot.py` y gráficos.
 9. [ ] README final.
 
 ## 10. Riesgos y preguntas abiertas

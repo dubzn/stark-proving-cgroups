@@ -47,6 +47,12 @@ docker run --rm -v "$PWD":/repo stark-proving:dev bash /repo/scripts/tamper.sh
 
 El claim (output, hash del programa) y los commitments entran al transcript de Fiat–Shamir, así que cualquier cambio cambia los desafíos y el proof-of-work deja de coincidir. Los valores consultados se leen después, y los atrapa la verificación de Merkle.
 
+```bash
+# 6. Gráficos: results/raw/*.csv -> results/figures/*.png (no hace falta Python local)
+docker run --rm -v "$PWD":/repo -w /repo python:3.12-slim \
+  bash -c "pip install -q matplotlib==3.9.2 && python scripts/plot.py"
+```
+
 ## Estructura
 
 ```
@@ -54,7 +60,7 @@ docker/Dockerfile      imagen con Scarb (execute/prove/verify)
 cairo/fib_core/        librería: fib(n) + tests
 cairo/fib_exec/        programa #[executable] que se prueba con Stwo
 scripts/               medición (run_once.sh) y barridos (sweep.sh)
-results/               CSV de E1–E3 y una prueba de ejemplo (ver results/README.md)
+results/               CSV de E1–E3, figuras y una prueba de ejemplo (ver results/README.md)
 ```
 
 ## Notas

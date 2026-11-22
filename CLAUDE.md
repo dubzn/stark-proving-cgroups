@@ -44,5 +44,5 @@ Toda la planificación está en [SPEC.md](SPEC.md); cómo correr todo, en [READM
 - [x] 5. `run_once.sh`
 - [x] 6. Calibración (n máx = 100.000)
 - [x] 7. `sweep.sh` y barridos E1–E3 corridos (resultados en `results/`, resumen en SPEC §7)
-- [ ] 8. `plot.py`
+- [x] 8. `plot.py` (corre en un contenedor python:3.12-slim, ver README)
 - [ ] 9. README final

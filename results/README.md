@@ -19,6 +19,8 @@ Mediciones del 22/11/2026 con `scripts/sweep.sh all` (3 repeticiones por punto).
 - `raw/E2.csv`: `--cpus` ∈ {4, 2, 1, 0.5}, n = 10.000.
 - `raw/E3.csv`: `--memory` = `--memory-swap` ∈ {16g, 15g, 14.5g, 14g, 13g}, n = 10.000.
   Docker interpreta `g` como GiB: `mem_max` está en bytes.
+- `figures/`: gráficos generados con `scripts/plot.py` (media de 3 repeticiones, barras de error = 1 desvío).
+  `e1_prove_time`, `e1_verify_vs_execute`, `e1_memory_peak`, `e2_cpu_limit`, `e3_memory_limit`.
 - `proofs/fib10_proof.json.gz`: una prueba STARK de fib(10) como ejemplo del formato
   (11,3 MB sin comprimir). Las demás no se guardan: pesan lo mismo y no aportan.
 
