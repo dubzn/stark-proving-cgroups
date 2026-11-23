@@ -45,4 +45,6 @@ Toda la planificación está en [SPEC.md](SPEC.md); cómo correr todo, en [READM
 - [x] 6. Calibración (n máx = 100.000)
 - [x] 7. `sweep.sh` y barridos E1–E3 corridos (resultados en `results/`, resumen en SPEC §7)
 - [x] 8. `plot.py` (corre en un contenedor python:3.12-slim, ver README)
-- [ ] 9. README final
+- [x] 9. README final + `Makefile` (`make` lista los comandos)
+
+Informe: la versión final está en Google Docs (copia de la plantilla de la cátedra, Arial 11, estructura exacta de la consigna). `informe/informe.md` es su fuente en markdown y se mantiene sincronizada con el doc. `make informe` (markdown -> .docx) queda como alternativa sin conector.

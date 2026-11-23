@@ -1,7 +1,7 @@
 # SPEC — Generación y verificación de pruebas STARK bajo restricciones de cgroups v2
 
 > Trabajo Final Integrador — Sistemas Operativos y Redes II (UNGS), 2do semestre 2026.
-> Estado: **aprobado**. Entorno, scripts y barridos completos; falta el README final.
+> Estado: **aprobado**. Implementación y barridos completos. Sigue el informe.
 
 ---
 
@@ -72,6 +72,7 @@ Una sola imagen Docker. Cada corrida de medición es un `docker run` nuevo, así
 stark-proving-cgroups/
 ├── SPEC.md
 ├── README.md
+├── Makefile                    # comandos: make build / prove / tamper / sweep / plots
 ├── docker/
 │   └── Dockerfile              # scarb (execute / prove / verify con stwo), versión fijada
 ├── cairo/                      # paquetes Scarb
@@ -141,7 +142,7 @@ Medias de 3 repeticiones. Detalle y entorno en `results/README.md`.
 - [x] `run_once.sh` emite una fila CSV con todas las métricas de §7.
 - [x] E1, E2 y E3 completos en `results/raw/`.
 - [x] `plot.py` genera los gráficos del informe en `results/figures/`.
-- [ ] README explica cómo reproducir todo en ≤ 5 comandos.
+- [x] README explica cómo reproducir todo en ≤ 5 comandos (`make build`, `make prove`, `make tamper`, `make sweep`, `make plots`).
 
 ## 9. Tareas (en orden)
 
@@ -153,7 +154,7 @@ Medias de 3 repeticiones. Detalle y entorno en `results/README.md`.
 6. [x] Calibrar rangos de n y el n fijo de E2/E3.
 7. [x] `sweep.sh` y correr E1, E2, E3 (VM Ubuntu Server, 22/11/2026).
 8. [x] `plot.py` y gráficos.
-9. [ ] README final.
+9. [x] README final, con `Makefile`.
 
 ## 10. Riesgos y preguntas abiertas
 
